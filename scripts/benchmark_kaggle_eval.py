@@ -7,6 +7,7 @@ from pathlib import Path
 
 from arcforge.symbolic import candidate_grids
 from arcforge.synthesis import synthesis_candidate_grids
+from arcforge.relational import relational_candidate_grids
 
 
 def _dedupe(grids):
@@ -35,14 +36,17 @@ def main() -> None:
     total = 0
     symbolic_hits = set()
     synthesis_hits = set()
+    relational_hits = set()
     local_union_hits = set()
     rows_with_symbolic_candidates = 0
     rows_with_synthesis_candidates = 0
+    rows_with_relational_candidates = 0
     candidate_counts = {}
 
     for task_id, task in challenges.items():
         symbolic = candidate_grids(task)
         synthesis = synthesis_candidate_grids(task, max_depth=2)
+        relational = relational_candidate_grids(task)
 
         truths = solutions[task_id]
         if len(truths) != len(task["test"]):
@@ -53,16 +57,20 @@ def main() -> None:
             key = f"{task_id}:{i}"
             sp = symbolic[i]
             sy = synthesis[i]
-            merged = _dedupe(sp + sy)
+            re = relational[i]
+            merged = _dedupe(sp + sy + re)
 
             if sp:
                 rows_with_symbolic_candidates += 1
             if sy:
                 rows_with_synthesis_candidates += 1
+            if re:
+                rows_with_relational_candidates += 1
 
             candidate_counts[key] = {
                 "symbolic": len(sp),
                 "synthesis": len(sy),
+                "relational": len(re),
                 "local_union": len(merged),
             }
 
@@ -70,6 +78,8 @@ def main() -> None:
                 symbolic_hits.add(key)
             if any(g == truth for g in sy):
                 synthesis_hits.add(key)
+            if any(g == truth for g in re):
+                relational_hits.add(key)
             if any(g == truth for g in merged):
                 local_union_hits.add(key)
 
@@ -81,11 +91,14 @@ def main() -> None:
         "qwen_oracle_accuracy": len(qwen) / total,
         "rows_with_symbolic_candidates": rows_with_symbolic_candidates,
         "rows_with_synthesis_candidates": rows_with_synthesis_candidates,
+        "rows_with_relational_candidates": rows_with_relational_candidates,
         "symbolic_rows": len(symbolic_hits),
         "synthesis_rows": len(synthesis_hits),
+        "relational_rows": len(relational_hits),
         "local_union_rows": len(local_union_hits),
         "unique_symbolic_over_qwen": sorted(symbolic_hits - qwen),
         "unique_synthesis_over_qwen": sorted(synthesis_hits - qwen),
+        "unique_relational_over_qwen": sorted(relational_hits - qwen),
         "unique_local_union_over_qwen": sorted(local_union_hits - qwen),
         "qwen_plus_local_oracle_rows": len(full_oracle),
         "qwen_plus_local_oracle_accuracy": len(full_oracle) / total,
