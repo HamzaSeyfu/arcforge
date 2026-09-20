@@ -68,35 +68,41 @@ class LocalQwenTextRuntime:
         return prompt
 
     def __call__(self, prompts: list[str], seed: int) -> list[str]:
-        outputs = []
-        for i, prompt in enumerate(prompts):
-            local_seed = seed + i * 10007
-            random.seed(local_seed)
-            self.torch.manual_seed(local_seed)
-            if self.torch.cuda.is_available():
-                self.torch.cuda.manual_seed_all(local_seed)
+        if not prompts:
+            return []
 
-            rendered = self._format_prompt(prompt)
-            inputs = self.tokenizer(
-                rendered,
-                return_tensors="pt",
-                add_special_tokens=False,
+        rendered = [self._format_prompt(prompt) for prompt in prompts]
+        self.tokenizer.padding_side = "left"
+        if self.tokenizer.pad_token_id is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+
+        inputs = self.tokenizer(
+            rendered,
+            return_tensors="pt",
+            padding=True,
+            add_special_tokens=False,
+        )
+        device = next(self.model.parameters()).device
+        inputs = {k: v.to(device) for k, v in inputs.items()}
+
+        random.seed(seed)
+        self.torch.manual_seed(seed)
+        if self.torch.cuda.is_available():
+            self.torch.cuda.manual_seed_all(seed)
+
+        with self.torch.inference_mode():
+            generated = self.model.generate(
+                **inputs,
+                max_new_tokens=self.max_new_tokens,
+                do_sample=True,
+                temperature=self.temperature,
+                top_p=self.top_p,
+                pad_token_id=self.tokenizer.pad_token_id,
+                eos_token_id=self.tokenizer.eos_token_id,
             )
-            device = next(self.model.parameters()).device
-            inputs = {k: v.to(device) for k, v in inputs.items()}
 
-            with self.torch.no_grad():
-                generated = self.model.generate(
-                    **inputs,
-                    max_new_tokens=self.max_new_tokens,
-                    do_sample=True,
-                    temperature=self.temperature,
-                    top_p=self.top_p,
-                    pad_token_id=self.tokenizer.eos_token_id,
-                )
-
-            new_tokens = generated[0, inputs["input_ids"].shape[1] :]
-            outputs.append(
-                self.tokenizer.decode(new_tokens, skip_special_tokens=True)
-            )
-        return outputs
+        prompt_len = inputs["input_ids"].shape[1]
+        return [
+            self.tokenizer.decode(row[prompt_len:], skip_special_tokens=True)
+            for row in generated
+        ]
