@@ -50,3 +50,65 @@ def structural_generalization_score(task: dict, artifact: ProgramArtifact) -> fl
     score -= min(0.30, 0.05 * coordinate_patterns)
 
     return max(0.0, min(1.0, score))
+
+
+class TextModelGeneralizationReviewer:
+    """
+    Athanor-style artifact-only reviewer.
+
+    The reviewer sees only the task, explicit hypothesis, code, train-perfect
+    status, and proposed test outputs. It does not see the generator's hidden
+    reasoning or mutation history.
+    """
+
+    def __init__(self, generate_text, *, seed: int = 99173):
+        self.generate_text = generate_text
+        self.seed = seed
+
+    def __call__(self, task: dict, artifact: ProgramArtifact) -> float:
+        if not artifact.exact_train or artifact.report is None:
+            return 0.0
+
+        hypothesis = artifact.metadata.get("hypothesis", "")
+        prompt = f"""
+You are an independent ARC-AGI-2 generalization reviewer.
+
+A solver produced a program that matches every training example exactly.
+Your job is NOT to reward train fit. Decide whether the rule is likely to
+generalize to the unseen test input rather than exploiting accidental details.
+
+Inspect:
+- whether the hypothesis explains all examples with one coherent rule;
+- whether the code hard-codes example-specific coordinates, sizes, or colors;
+- whether the rule uses stable object/relationship/contextual properties;
+- whether another plausible rule could fit the demonstrations equally well.
+
+Return exactly one line:
+APPROVE <confidence 0.0-1.0>
+or
+REJECT <confidence 0.0-1.0>
+
+Training task:
+{task["train"]}
+
+Test inputs:
+{[x["input"] for x in task["test"]]}
+
+Hypothesis:
+{hypothesis}
+
+Program:
+{artifact.source}
+
+Proposed test outputs:
+{list(artifact.report.test_outputs)}
+""".strip()
+
+        response = self.generate_text([prompt], self.seed)[0].strip()
+        m = re.search(r"\b(APPROVE|REJECT)\s+([01](?:\.\d+)?)", response, flags=re.I)
+        if not m:
+            return structural_generalization_score(task, artifact)
+
+        verdict = m.group(1).upper()
+        confidence = max(0.0, min(1.0, float(m.group(2))))
+        return confidence if verdict == "APPROVE" else -confidence
