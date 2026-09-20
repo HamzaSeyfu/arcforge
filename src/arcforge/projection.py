@@ -357,92 +357,99 @@ def _block_tiling_variant(
     return out
 
 
-def block_tiling_rules(task: dict) -> list[ProjectionRule]:
-    if not task["train"]:
-        return []
+def _block_tiling_variants(
+    g: Grid,
+    divisor: int,
+    swap: bool,
+) -> list[Grid]:
+    variants: list[Grid] = []
+    seen: set[tuple[tuple[int, ...], ...]] = set()
 
-    candidates: list[ProjectionRule] = []
     for axis in ("row", "col"):
-        max_rank = max(
-            (
-                len(_separator_color_candidates(pair["input"], axis))
-                for pair in task["train"]
-            ),
-            default=0,
-        )
-        for rank in range(max_rank):
-            for divisor in range(1, 7):
-                for swap in (False, True):
-                    def apply(
-                        g: Grid,
-                        axis=axis,
-                        rank=rank,
-                        divisor=divisor,
-                        swap=swap,
-                    ) -> Grid | None:
-                        colors = _separator_color_candidates(g, axis)
-                        if rank >= len(colors):
-                            return None
-                        result = _block_tiling_variant(
-                            g,
-                            axis,
-                            colors[rank],
-                            divisor,
-                        )
-                        if result is None or not swap:
-                            return result
+        for separator_color in _separator_color_candidates(g, axis):
+            blocks = _split_by_separator(g, axis, separator_color)
+            if len(blocks) != 4:
+                continue
+            nonsolid = [b for b in blocks if _solid_color(b) is None]
+            solid = [b for b in blocks if _solid_color(b) is not None]
+            if len(nonsolid) != 2 or len(solid) != 2:
+                continue
 
-                        # Swapping the two output palette roles is another
-                        # structurally valid hypothesis, inferred by train fit.
-                        blocks = _split_by_separator(g, axis, colors[rank])
-                        nonsolid = [b for b in blocks if _solid_color(b) is None]
-                        solid = [b for b in blocks if _solid_color(b) is not None]
-                        if len(nonsolid) != 2 or len(solid) != 2:
-                            return None
-                        bg = _infer_symbol_background(nonsolid)
-                        if bg is None:
-                            return None
-                        shape_block, counter_block = nonsolid
-                        core = _trim_background(shape_block, bg)
-                        counter = _trim_background(counter_block, bg)
-                        if core is None or counter is None:
-                            return None
-                        color_a = _solid_color(solid[1])
-                        color_b = _solid_color(solid[0])
-                        if color_a is None or color_b is None:
-                            return None
-                        dots = sum(v != bg for row in counter for v in row)
-                        if dots == 0 or dots % divisor:
-                            return None
-                        count = dots // divisor
-                        if not 1 <= count <= 12:
-                            return None
-                        recolored = [
-                            [color_a if v != bg else color_b for v in row]
-                            for row in core
-                        ]
-                        if axis == "row":
-                            out: Grid = []
-                            for i in range(count):
-                                out.extend(row[:] for row in recolored)
-                                if i + 1 < count:
-                                    out.append([color_b] * len(recolored[0]))
-                            return out
-                        out = [[] for _ in recolored]
-                        for i in range(count):
-                            for r, row in enumerate(recolored):
-                                out[r].extend(row)
-                                if i + 1 < count:
-                                    out[r].append(color_b)
-                        return out
+            bg = _infer_symbol_background(nonsolid)
+            if bg is None:
+                continue
+            shape_block, counter_block = nonsolid
+            core = _trim_background(shape_block, bg)
+            counter = _trim_background(counter_block, bg)
+            if core is None or counter is None:
+                continue
 
-                    rule = ProjectionRule(
-                        f"block_tile:{axis}:rank{rank}:div{divisor}:swap{int(swap)}",
-                        apply,
+            colors = [_solid_color(solid[0]), _solid_color(solid[1])]
+            if any(color is None for color in colors):
+                continue
+            color_a, color_b = colors  # type: ignore[misc]
+            if swap:
+                color_a, color_b = color_b, color_a
+
+            dots = sum(v != bg for row in counter for v in row)
+            if dots == 0 or dots % divisor:
+                continue
+            count = dots // divisor
+            if not 1 <= count <= 12:
+                continue
+
+            recolored = [
+                [color_a if v != bg else color_b for v in row]
+                for row in core
+            ]
+
+            if axis == "row":
+                result: Grid = []
+                for i in range(count):
+                    result.extend(row[:] for row in recolored)
+                    if i + 1 < count:
+                        result.append([color_b] * len(recolored[0]))
+            else:
+                result = [[] for _ in recolored]
+                for i in range(count):
+                    for r, row in enumerate(recolored):
+                        result[r].extend(row)
+                        if i + 1 < count:
+                            result[r].append(color_b)
+
+            key = tuple(tuple(row) for row in result)
+            if key not in seen:
+                seen.add(key)
+                variants.append(result)
+
+    return variants
+
+
+def _learn_block_tiling_specs(task: dict) -> list[tuple[int, bool]]:
+    """
+    Learn count encoding and palette role while allowing orientation and
+    separator color to vary independently in each example.
+    """
+    specs: list[tuple[int, bool]] = []
+    for divisor in range(1, 7):
+        for swap in (False, True):
+            if all(
+                any(
+                    candidate == pair["output"]
+                    for candidate in _block_tiling_variants(
+                        pair["input"], divisor, swap
                     )
-                    if _fits(rule, task["train"]):
-                        candidates.append(rule)
-    return candidates
+                )
+                for pair in task["train"]
+            ):
+                specs.append((divisor, swap))
+    return specs
+
+
+def block_tiling_rules(task: dict) -> list[ProjectionRule]:
+    # Kept for introspection. Dynamic orientation can yield several test
+    # candidates, so projection_candidate_grids handles this family directly.
+    return []
 
 
 def _cell_layout(
@@ -595,17 +602,19 @@ def _fits(rule: ProjectionRule, train: list[dict]) -> bool:
 def projection_rule_library(task: dict) -> list[ProjectionRule]:
     return (
         divider_periodic_rules(task)
-        + block_tiling_rules(task)
         + cell_completion_rules(task)
     )
 
 
 def projection_candidate_grids(task: dict) -> list[list[Grid]]:
     rules = projection_rule_library(task)
+    block_specs = _learn_block_tiling_specs(task)
+
     pools: list[list[Grid]] = []
     for test in task["test"]:
         row: list[Grid] = []
         seen = set()
+
         for rule in rules:
             try:
                 candidate = rule.apply(test["input"])
@@ -617,5 +626,15 @@ def projection_candidate_grids(task: dict) -> list[list[Grid]]:
             if key not in seen:
                 seen.add(key)
                 row.append(candidate)
+
+        for divisor, swap in block_specs:
+            for candidate in _block_tiling_variants(
+                test["input"], divisor, swap
+            ):
+                key = tuple(tuple(r) for r in candidate)
+                if key not in seen:
+                    seen.add(key)
+                    row.append(candidate)
+
         pools.append(row)
     return pools
