@@ -59,6 +59,11 @@ def _extract_python(text: str) -> str | None:
     return None
 
 
+def _extract_hypothesis(text: str) -> str:
+    matches = re.findall(r"<hypothesis>\s*(.*?)\s*</hypothesis>", text, flags=re.S | re.I)
+    return matches[-1].strip() if matches else ""
+
+
 def _program_id(source: str, family: str, generation: int, index: int) -> str:
     digest = hashlib.sha1(source.encode("utf-8")).hexdigest()[:10]
     return f"{family}-g{generation}-{index}-{digest}"
@@ -93,7 +98,9 @@ Rules:
 - output must be a rectangular grid of integers 0..9, max 30x30.
 - infer one general rule from ALL training examples.
 - prefer object, relationship, and contextual rules over memorized coordinates.
-- return only <python> ... </python> containing the function.
+- first write a concise <hypothesis> ... </hypothesis> describing the general rule.
+- then write <python> ... </python> containing the function.
+- output only those two tagged blocks.
 
 Task:
 {_task_text(task)}
@@ -129,7 +136,8 @@ Requirements:
 - define transform(grid: np.ndarray) -> np.ndarray
 - numpy is already available as np; no imports
 - output colors 0..9
-- return only <python> ... </python>
+- output a concise <hypothesis> ... </hypothesis> and one <python> ... </python>
+- output only those two tagged blocks
 
 Task:
 {_task_text(task)}
@@ -157,6 +165,7 @@ Previous candidates:
                     family=self.family,
                     generation=generation,
                     parent_ids=parent_ids,
+                    metadata={"hypothesis": _extract_hypothesis(text)},
                 )
             )
         return out
@@ -204,6 +213,7 @@ Previous candidates:
                     family=self.family,
                     generation=generation,
                     parent_ids=tuple(p.program_id for p in selected),
+                    metadata={"hypothesis": _extract_hypothesis(response)},
                 )
             )
         return out
