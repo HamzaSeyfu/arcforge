@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+dist/
+build/
+*.egg-info/
+submission.json
+submission_*.json
+artifacts/
+checkpoints/
+models/
