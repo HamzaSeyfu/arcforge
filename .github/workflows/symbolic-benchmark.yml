@@ -6,6 +6,8 @@ on:
     paths:
       - "src/arcforge/symbolic.py"
       - "scripts/benchmark_symbolic.py"
+      - "scripts/benchmark_portfolio.py"
+      - "src/arcforge/synthesis.py"
       - "experiments/qwen_oracle_rows.json"
       - ".github/workflows/symbolic-benchmark.yml"
   workflow_dispatch:
@@ -48,11 +50,19 @@ jobs:
             --qwen-oracle-rows experiments/qwen_oracle_rows.json \
             --output experiments/latest_symbolic_benchmark.json
 
-      - name: Commit benchmark report
+      - name: Benchmark local portfolio
+        run: |
+          python scripts/benchmark_portfolio.py \
+            --evaluation-dir external/ARC-AGI-2/data/evaluation \
+            --task-list external/ARC-AGI-2/data/evaluation.txt \
+            --qwen-oracle-rows experiments/qwen_oracle_rows.json \
+            --output experiments/latest_portfolio_benchmark.json
+
+      - name: Commit benchmark reports
         run: |
           git config user.name "arcforge-bot"
           git config user.email "arcforge-bot@users.noreply.github.com"
-          git add experiments/latest_symbolic_benchmark.json
+          git add experiments/latest_symbolic_benchmark.json experiments/latest_portfolio_benchmark.json
           git diff --cached --quiet && exit 0
           git commit -m "Record latest symbolic benchmark"
           git push origin HEAD:research/40pct-candidate-expansion
