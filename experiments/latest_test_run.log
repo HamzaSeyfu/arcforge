@@ -1,0 +1,59 @@
+.........F...F.                                                          [100%]
+=================================== FAILURES ===================================
+____________________________ test_plus_recolor_rule ____________________________
+
+    def test_plus_recolor_rule():
+        inp = [
+            [0, 1, 0],
+            [1, 1, 1],
+            [0, 1, 0],
+        ]
+        out = [
+            [0, 2, 0],
+            [2, 2, 2],
+            [0, 2, 0],
+        ]
+        task = {
+            "train": [{"input": inp, "output": out}],
+            "test": [{"input": inp}],
+        }
+>       assert out in relational_candidate_grids(task)[0]
+E       assert [[0, 2, 0], [2, 2, 2], [0, 2, 0]] in []
+
+tests/test_relational.py:19: AssertionError
+_______________________ test_depth_two_crop_then_rotate ________________________
+
+    def test_depth_two_crop_then_rotate():
+        task = {
+            "train": [
+                {
+                    "input": [
+                        [0, 0, 0, 0],
+                        [0, 1, 2, 0],
+                        [0, 3, 4, 0],
+                        [0, 0, 0, 0],
+                    ],
+                    "output": [[3, 1], [4, 2]],
+                }
+            ],
+            "test": [
+                {
+                    "input": [
+                        [0, 0, 0, 0],
+                        [0, 5, 6, 0],
+                        [0, 7, 8, 0],
+                        [0, 0, 0, 0],
+                    ]
+                }
+            ],
+        }
+        pools = synthesis_candidate_grids(task, max_depth=2)
+>       assert [[7, 5], [8, 6]] in pools[0]
+E       assert [[7, 5], [8, 6]] in [[[5, 6], [7, 8]]]
+
+tests/test_synthesis.py:29: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_relational.py::test_plus_recolor_rule - assert [[0, 2, 0], [2, 2, 2], [0, 2, 0]] in []
+FAILED tests/test_synthesis.py::test_depth_two_crop_then_rotate - assert [[7, 5], [8, 6]] in [[[5, 6], [7, 8]]]
+2 failed, 13 passed in 0.14s
+exit_code=1

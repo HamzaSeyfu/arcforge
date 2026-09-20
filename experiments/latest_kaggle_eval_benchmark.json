@@ -1,0 +1,1775 @@
+{
+  "tasks": 120,
+  "rows": 172,
+  "qwen_oracle_rows": 57,
+  "qwen_oracle_accuracy": 0.3313953488372093,
+  "rows_with_symbolic_candidates": 0,
+  "rows_with_synthesis_candidates": 0,
+  "rows_with_relational_candidates": 4,
+  "rows_with_panel_candidates": 0,
+  "rows_with_object_candidates": 0,
+  "rows_with_projection_candidates": 6,
+  "rows_with_framewalk_candidates": 2,
+  "symbolic_rows": 0,
+  "synthesis_rows": 0,
+  "relational_rows": 4,
+  "panel_rows": 0,
+  "object_rows": 0,
+  "projection_rows": 6,
+  "framewalk_rows": 2,
+  "local_union_rows": 12,
+  "unique_symbolic_over_qwen": [],
+  "unique_synthesis_over_qwen": [],
+  "unique_relational_over_qwen": [
+    "8e5c0c38:0",
+    "dbff022c:0"
+  ],
+  "unique_panels_over_qwen": [],
+  "unique_objects_over_qwen": [],
+  "unique_projection_over_qwen": [
+    "1ae2feb7:0",
+    "1ae2feb7:1",
+    "b0039139:0",
+    "b0039139:1",
+    "b99e7126:0"
+  ],
+  "unique_framewalk_over_qwen": [
+    "3e6067c3:0",
+    "3e6067c3:1"
+  ],
+  "unique_local_union_over_qwen": [
+    "1ae2feb7:0",
+    "1ae2feb7:1",
+    "3e6067c3:0",
+    "3e6067c3:1",
+    "8e5c0c38:0",
+    "b0039139:0",
+    "b0039139:1",
+    "b99e7126:0",
+    "dbff022c:0"
+  ],
+  "qwen_plus_local_oracle_rows": 66,
+  "qwen_plus_local_oracle_accuracy": 0.38372093023255816,
+  "candidate_counts": {
+    "0934a4d8:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "135a2760:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "136b0064:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "13e47133:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "13e47133:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "142ca369:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "142ca369:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "16b78196:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "16de56c4:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "16de56c4:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "1818057f:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 1,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "195c6913:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "195c6913:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "1ae2feb7:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 1,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "1ae2feb7:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 1,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "1ae2feb7:2": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 1,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "20270e3b:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "20270e3b:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "20a9e565:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "20a9e565:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "21897d95:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "21897d95:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "221dfab4:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "221dfab4:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "247ef758:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "247ef758:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "269e22fb:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "269e22fb:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "271d71e2:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "28a6681f:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "291dc1e1:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "2b83f449:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "2ba387bc:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "2c181942:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "2d0172a1:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "2d0172a1:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "31f7f899:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "332f06d7:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "35ab12c3:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "36a08778:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "36a08778:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "38007db0:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "38007db0:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "3a25b0d8:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "3a25b0d8:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "3dc255db:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "3e6067c3:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 1,
+      "local_union": 1
+    },
+    "3e6067c3:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 1,
+      "local_union": 1
+    },
+    "409aa875:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "446ef5d2:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "446ef5d2:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "45a5af55:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4a21e3da:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4a21e3da:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4c3d4a41:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4c3d4a41:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4c416de3:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4c7dc4dd:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4c7dc4dd:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4e34c42c:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "4e34c42c:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "53fb4810:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "5545f144:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "581f7754:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "581f7754:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "58490d8a:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "58f5dbd5:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "5961cc34:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "5dbc8537:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "5dbc8537:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "62593bfd:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "62593bfd:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "64efde09:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "65b59efc:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "65b59efc:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "67e490f4:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "6e453dd6:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "6e4f6532:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "6e4f6532:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "6ffbe589:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "71e489b6:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "71e489b6:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7491f3cf:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7666fa5d:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "78332cb0:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "78332cb0:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7b0280bc:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7b3084d4:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7b5033c1:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7b80bb43:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7c66cb00:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7ed72f31:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "7ed72f31:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "800d221b:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "80a900e0:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "8698868d:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "88bcf3b4:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "88bcf3b4:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "88e364bc:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "88e364bc:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "89565ca0:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "898e7135:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "8b7bacbf:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "8b7bacbf:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "8b9c3697:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "8e5c0c38:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 1,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "8e5c0c38:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 1,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "8f215267:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "8f3a5a89:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "9385bd28:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "9385bd28:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "97d7923e:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "981571dc:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "9aaea919:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "9bbf930d:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a251c730:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a25697e4:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a25697e4:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a32d8b75:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a32d8b75:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a395ee82:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a47bf94d:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "a6f40cea:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "aa4ec2a5:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "abc82100:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "abc82100:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "b0039139:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 1,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "b0039139:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 1,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "b10624e5:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "b5ca7ac4:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "b6f77b65:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "b6f77b65:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "b6f77b65:2": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "b99e7126:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 1,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "b9e38dc0:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "bf45cf4b:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "c4d067a0:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "c7f57c3e:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "cb2d8a2c:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "cb2d8a2c:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "cbebaa4b:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "cbebaa4b:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "d35bdbdc:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "d35bdbdc:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "d35bdbdc:2": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "d59b0160:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "d8e07eb2:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "d8e07eb2:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "da515329:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "db0c5428:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "db695cfb:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "dbff022c:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 1,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 1
+    },
+    "dd6b8c4b:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "dd6b8c4b:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "de809cff:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "dfadab01:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "e12f9a14:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "e12f9a14:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "e3721c99:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "e3721c99:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "e376de54:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "e8686506:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "e87109e9:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "edb79dae:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "eee78d87:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "f560132c:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "f560132c:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "f931b4a8:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "f931b4a8:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "faa9f03d:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "faa9f03d:1": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    },
+    "fc7cae8d:0": {
+      "symbolic": 0,
+      "synthesis": 0,
+      "relational": 0,
+      "panels": 0,
+      "objects": 0,
+      "projection": 0,
+      "framewalk": 0,
+      "local_union": 0
+    }
+  }
+}
