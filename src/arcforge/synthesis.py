@@ -7,6 +7,7 @@ from typing import Callable
 from .symbolic import (
     Grid,
     _anti_transpose,
+    _copy,
     _bbox_crop,
     _component_by_rank,
     _flip_h,
