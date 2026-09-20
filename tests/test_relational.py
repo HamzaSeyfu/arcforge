@@ -19,10 +19,10 @@ def test_plus_recolor_rule():
     assert out in relational_candidate_grids(task)[0]
 
 
-def test_vertical_symmetry_prune():
+def test_vertical_symmetry_prune_same_color_outlier():
     inp = [
         [0, 1, 0, 1, 0],
-        [0, 1, 0, 1, 2],
+        [0, 1, 0, 1, 1],
     ]
     out = [
         [0, 1, 0, 1, 0],
