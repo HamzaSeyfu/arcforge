@@ -10,6 +10,7 @@ on:
       - "scripts/benchmark_kaggle_eval.py"
       - "src/arcforge/synthesis.py"
       - "src/arcforge/relational.py"
+      - "src/arcforge/panels.py"
       - "experiments/qwen_oracle_rows.json"
       - ".github/workflows/symbolic-benchmark.yml"
   workflow_dispatch:
