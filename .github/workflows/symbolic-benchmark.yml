@@ -7,6 +7,7 @@ on:
       - "src/arcforge/symbolic.py"
       - "scripts/benchmark_symbolic.py"
       - "scripts/benchmark_portfolio.py"
+      - "scripts/benchmark_kaggle_eval.py"
       - "src/arcforge/synthesis.py"
       - "experiments/qwen_oracle_rows.json"
       - ".github/workflows/symbolic-benchmark.yml"
@@ -24,12 +25,16 @@ jobs:
         with:
           ref: research/40pct-candidate-expansion
 
-      - name: Checkout official ARC-AGI-2 data
+      - name: Checkout exact Kaggle public-eval snapshot
         uses: actions/checkout@v4
         with:
-          repository: arcprize/ARC-AGI-2
-          path: external/ARC-AGI-2
+          repository: jaywang172/ARC-Prize-2026---ARC-AGI-2
+          path: external/kaggle-eval
           fetch-depth: 1
+          sparse-checkout: |
+            arc-agi_evaluation_challenges.json
+            arc-agi_evaluation_solutions.json
+          sparse-checkout-cone-mode: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -42,27 +47,19 @@ jobs:
       - name: Run tests
         run: pytest -q
 
-      - name: Benchmark symbolic candidate generator
+      - name: Benchmark on exact Kaggle evaluation
         run: |
-          python scripts/benchmark_symbolic.py \
-            --evaluation-dir external/ARC-AGI-2/data/evaluation \
-            --task-list external/ARC-AGI-2/data/evaluation.txt \
+          python scripts/benchmark_kaggle_eval.py \
+            --challenges external/kaggle-eval/arc-agi_evaluation_challenges.json \
+            --solutions external/kaggle-eval/arc-agi_evaluation_solutions.json \
             --qwen-oracle-rows experiments/qwen_oracle_rows.json \
-            --output experiments/latest_symbolic_benchmark.json
+            --output experiments/latest_kaggle_eval_benchmark.json
 
-      - name: Benchmark local portfolio
-        run: |
-          python scripts/benchmark_portfolio.py \
-            --evaluation-dir external/ARC-AGI-2/data/evaluation \
-            --task-list external/ARC-AGI-2/data/evaluation.txt \
-            --qwen-oracle-rows experiments/qwen_oracle_rows.json \
-            --output experiments/latest_portfolio_benchmark.json
-
-      - name: Commit benchmark reports
+      - name: Commit benchmark report
         run: |
           git config user.name "arcforge-bot"
           git config user.email "arcforge-bot@users.noreply.github.com"
-          git add experiments/latest_symbolic_benchmark.json experiments/latest_portfolio_benchmark.json
+          git add experiments/latest_kaggle_eval_benchmark.json
           git diff --cached --quiet && exit 0
           git commit -m "Record latest symbolic benchmark"
           git push origin HEAD:research/40pct-candidate-expansion
