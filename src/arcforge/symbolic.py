@@ -299,7 +299,7 @@ def solve_symbolic_task(task: dict) -> list[SymbolicResult]:
     train = task["train"]
     fitting = [p for p in _program_library(train) if _fits_training(p, train)]
 
-    results: list[SymbolicResult] = []
+    results: list[list[SymbolicResult]] = []
     for test_case in task["test"]:
         seen: dict[tuple[tuple[int, ...], ...], tuple[Grid, list[str]]] = {}
         for program in fitting:
@@ -314,16 +314,14 @@ def solve_symbolic_task(task: dict) -> list[SymbolicResult]:
                 seen[key] = (candidate, [program.name])
             else:
                 seen[key][1].append(program.name)
-        results.append(
-            SymbolicResult(
-                programs=tuple(names),
-                candidates=(grid,),
-            )
-            for grid, names in seen.values()
-        )
 
-    # Materialize the generator expressions for a stable API.
-    return [[item for item in row] for row in results]  # type: ignore[return-value]
+        row_results = [
+            SymbolicResult(programs=tuple(names), candidates=(grid,))
+            for grid, names in seen.values()
+        ]
+        results.append(row_results)
+
+    return results
 
 
 def candidate_grids(task: dict) -> list[list[Grid]]:
