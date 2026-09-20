@@ -9,6 +9,7 @@ from arcforge.symbolic import candidate_grids
 from arcforge.synthesis import synthesis_candidate_grids
 from arcforge.relational import relational_candidate_grids
 from arcforge.panels import panel_candidate_grids
+from arcforge.objects import object_candidate_grids
 
 
 def _dedupe(grids):
@@ -39,11 +40,13 @@ def main() -> None:
     synthesis_hits = set()
     relational_hits = set()
     panel_hits = set()
+    object_hits = set()
     local_union_hits = set()
     rows_with_symbolic_candidates = 0
     rows_with_synthesis_candidates = 0
     rows_with_relational_candidates = 0
     rows_with_panel_candidates = 0
+    rows_with_object_candidates = 0
     candidate_counts = {}
 
     for task_id, task in challenges.items():
@@ -51,6 +54,7 @@ def main() -> None:
         synthesis = synthesis_candidate_grids(task, max_depth=2)
         relational = relational_candidate_grids(task)
         panels = panel_candidate_grids(task)
+        objects = object_candidate_grids(task)
 
         truths = solutions[task_id]
         if len(truths) != len(task["test"]):
@@ -63,7 +67,8 @@ def main() -> None:
             sy = synthesis[i]
             re = relational[i]
             pa = panels[i]
-            merged = _dedupe(sp + sy + re + pa)
+            ob = objects[i]
+            merged = _dedupe(sp + sy + re + pa + ob)
 
             if sp:
                 rows_with_symbolic_candidates += 1
@@ -73,12 +78,15 @@ def main() -> None:
                 rows_with_relational_candidates += 1
             if pa:
                 rows_with_panel_candidates += 1
+            if ob:
+                rows_with_object_candidates += 1
 
             candidate_counts[key] = {
                 "symbolic": len(sp),
                 "synthesis": len(sy),
                 "relational": len(re),
                 "panels": len(pa),
+                "objects": len(ob),
                 "local_union": len(merged),
             }
 
@@ -90,6 +98,8 @@ def main() -> None:
                 relational_hits.add(key)
             if any(g == truth for g in pa):
                 panel_hits.add(key)
+            if any(g == truth for g in ob):
+                object_hits.add(key)
             if any(g == truth for g in merged):
                 local_union_hits.add(key)
 
@@ -103,15 +113,18 @@ def main() -> None:
         "rows_with_synthesis_candidates": rows_with_synthesis_candidates,
         "rows_with_relational_candidates": rows_with_relational_candidates,
         "rows_with_panel_candidates": rows_with_panel_candidates,
+        "rows_with_object_candidates": rows_with_object_candidates,
         "symbolic_rows": len(symbolic_hits),
         "synthesis_rows": len(synthesis_hits),
         "relational_rows": len(relational_hits),
         "panel_rows": len(panel_hits),
+        "object_rows": len(object_hits),
         "local_union_rows": len(local_union_hits),
         "unique_symbolic_over_qwen": sorted(symbolic_hits - qwen),
         "unique_synthesis_over_qwen": sorted(synthesis_hits - qwen),
         "unique_relational_over_qwen": sorted(relational_hits - qwen),
         "unique_panels_over_qwen": sorted(panel_hits - qwen),
+        "unique_objects_over_qwen": sorted(object_hits - qwen),
         "unique_local_union_over_qwen": sorted(local_union_hits - qwen),
         "qwen_plus_local_oracle_rows": len(full_oracle),
         "qwen_plus_local_oracle_accuracy": len(full_oracle) / total,
