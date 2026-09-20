@@ -8,6 +8,7 @@ from pathlib import Path
 
 from arcforge.program_search import ProgramSearchEngine, SearchConfig, TextModelProgramGenerator
 from arcforge.program_search.local_qwen import LocalQwenTextRuntime
+from arcforge.program_search.vllm_runtime import VLLMTextRuntime
 from arcforge.program_search.reviewer import structural_generalization_score
 
 
@@ -21,7 +22,9 @@ def main() -> None:
     p.add_argument("--initial", type=int, default=4)
     p.add_argument("--mutations", type=int, default=4)
     p.add_argument("--generations", type=int, default=3)
-    p.add_argument("--max-new-tokens", type=int, default=1600)
+    p.add_argument("--max-new-tokens", type=int, default=512)
+    p.add_argument("--runtime", choices=["vllm", "transformers"], default="vllm")
+    p.add_argument("--tensor-parallel-size", type=int, default=4)
     p.add_argument("--output", default="agentic_search_report.json")
     args = p.parse_args()
 
@@ -29,11 +32,38 @@ def main() -> None:
     solutions = json.loads(Path(args.solutions).read_text())
     task_ids = list(challenges)[args.offset : args.offset + args.limit]
 
-    runtime = LocalQwenTextRuntime(
-        args.model_path,
-        max_new_tokens=args.max_new_tokens,
-    )
-    generator = TextModelProgramGenerator(runtime, family="qwen-coder")
+    if args.runtime == "vllm":
+        vllm_runtime = VLLMTextRuntime(
+            args.model_path,
+            tensor_parallel_size=args.tensor_parallel_size,
+            max_model_len=8192,
+            gpu_memory_utilization=0.90,
+            max_num_seqs=max(4, args.initial, args.mutations),
+        )
+
+        def generate_text(prompts, seed):
+            return vllm_runtime.generate(
+                prompts,
+                seed=seed,
+                max_tokens=args.max_new_tokens,
+                temperature=0.8,
+                top_p=0.9,
+                top_k=30,
+            )
+
+        family = "qwen-coder-vllm"
+    else:
+        hf_runtime = LocalQwenTextRuntime(
+            args.model_path,
+            max_new_tokens=args.max_new_tokens,
+        )
+
+        def generate_text(prompts, seed):
+            return hf_runtime(prompts, seed)
+
+        family = "qwen-coder-transformers"
+
+    generator = TextModelProgramGenerator(generate_text, family=family)
     engine = ProgramSearchEngine(
         generator,
         config=SearchConfig(
@@ -102,6 +132,8 @@ def main() -> None:
             "mutations": args.mutations,
             "generations": args.generations,
             "max_new_tokens": args.max_new_tokens,
+            "runtime": args.runtime,
+            "tensor_parallel_size": args.tensor_parallel_size,
         },
         "task_reports": task_reports,
     }
