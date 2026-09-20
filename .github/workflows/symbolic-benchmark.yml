@@ -1,0 +1,50 @@
+name: symbolic-benchmark
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "src/arcforge/symbolic.py"
+      - "scripts/benchmark_symbolic.py"
+      - "experiments/qwen_oracle_rows.json"
+      - ".github/workflows/symbolic-benchmark.yml"
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ARCForge
+        uses: actions/checkout@v4
+
+      - name: Checkout official ARC-AGI-2 data
+        uses: actions/checkout@v4
+        with:
+          repository: arcprize/ARC-AGI-2
+          path: external/ARC-AGI-2
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ARCForge
+        run: pip install -e ".[dev]"
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Benchmark symbolic candidate generator
+        run: |
+          python scripts/benchmark_symbolic.py \
+            --evaluation-dir external/ARC-AGI-2/data/evaluation \
+            --task-list external/ARC-AGI-2/data/evaluation.txt \
+            --qwen-oracle-rows experiments/qwen_oracle_rows.json \
+            --output symbolic_benchmark.json
+
+      - name: Upload benchmark report
+        uses: actions/upload-artifact@v4
+        with:
+          name: symbolic-benchmark
+          path: symbolic_benchmark.json
