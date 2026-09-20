@@ -202,6 +202,27 @@ def _uniform_separator_indices(
     return result
 
 
+def _separator_color_candidates(g: Grid, axis: str) -> list[int]:
+    """
+    Separator colors appear as repeated full uniform lines, but those lines are
+    isolated rather than forming a solid multi-line block.
+    """
+    grouped: dict[int, list[int]] = {}
+    for index, color in _uniform_separator_indices(g, axis):
+        grouped.setdefault(color, []).append(index)
+
+    candidates: list[tuple[int, int]] = []
+    for color, indices in grouped.items():
+        indices = sorted(indices)
+        if len(indices) < 2:
+            continue
+        if any(b == a + 1 for a, b in zip(indices, indices[1:])):
+            continue
+        candidates.append((-len(indices), color))
+
+    return [color for _, color in sorted(candidates)]
+
+
 def _split_by_separator(
     g: Grid,
     axis: str,
@@ -337,23 +358,90 @@ def _block_tiling_variant(
 
 
 def block_tiling_rules(task: dict) -> list[ProjectionRule]:
-    first = task["train"][0]["input"] if task["train"] else []
+    if not task["train"]:
+        return []
+
     candidates: list[ProjectionRule] = []
     for axis in ("row", "col"):
-        colors = Counter(
-            color for _, color in _uniform_separator_indices(first, axis)
+        max_rank = max(
+            (
+                len(_separator_color_candidates(pair["input"], axis))
+                for pair in task["train"]
+            ),
+            default=0,
         )
-        for separator_color, freq in colors.items():
-            if freq < 2:
-                continue
+        for rank in range(max_rank):
             for divisor in range(1, 7):
-                rule = ProjectionRule(
-                    f"block_tile:{axis}:sep{separator_color}:div{divisor}",
-                    lambda g, axis=axis, separator_color=separator_color, divisor=divisor:
-                        _block_tiling_variant(g, axis, separator_color, divisor),
-                )
-                if _fits(rule, task["train"]):
-                    candidates.append(rule)
+                for swap in (False, True):
+                    def apply(
+                        g: Grid,
+                        axis=axis,
+                        rank=rank,
+                        divisor=divisor,
+                        swap=swap,
+                    ) -> Grid | None:
+                        colors = _separator_color_candidates(g, axis)
+                        if rank >= len(colors):
+                            return None
+                        result = _block_tiling_variant(
+                            g,
+                            axis,
+                            colors[rank],
+                            divisor,
+                        )
+                        if result is None or not swap:
+                            return result
+
+                        # Swapping the two output palette roles is another
+                        # structurally valid hypothesis, inferred by train fit.
+                        blocks = _split_by_separator(g, axis, colors[rank])
+                        nonsolid = [b for b in blocks if _solid_color(b) is None]
+                        solid = [b for b in blocks if _solid_color(b) is not None]
+                        if len(nonsolid) != 2 or len(solid) != 2:
+                            return None
+                        bg = _infer_symbol_background(nonsolid)
+                        if bg is None:
+                            return None
+                        shape_block, counter_block = nonsolid
+                        core = _trim_background(shape_block, bg)
+                        counter = _trim_background(counter_block, bg)
+                        if core is None or counter is None:
+                            return None
+                        color_a = _solid_color(solid[1])
+                        color_b = _solid_color(solid[0])
+                        if color_a is None or color_b is None:
+                            return None
+                        dots = sum(v != bg for row in counter for v in row)
+                        if dots == 0 or dots % divisor:
+                            return None
+                        count = dots // divisor
+                        if not 1 <= count <= 12:
+                            return None
+                        recolored = [
+                            [color_a if v != bg else color_b for v in row]
+                            for row in core
+                        ]
+                        if axis == "row":
+                            out: Grid = []
+                            for i in range(count):
+                                out.extend(row[:] for row in recolored)
+                                if i + 1 < count:
+                                    out.append([color_b] * len(recolored[0]))
+                            return out
+                        out = [[] for _ in recolored]
+                        for i in range(count):
+                            for r, row in enumerate(recolored):
+                                out[r].extend(row)
+                                if i + 1 < count:
+                                    out[r].append(color_b)
+                        return out
+
+                    rule = ProjectionRule(
+                        f"block_tile:{axis}:rank{rank}:div{divisor}:swap{int(swap)}",
+                        apply,
+                    )
+                    if _fits(rule, task["train"]):
+                        candidates.append(rule)
     return candidates
 
 
