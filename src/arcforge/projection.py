@@ -59,7 +59,7 @@ def _runs_outward(
 
     while 0 <= i < len(line):
         value = line[i]
-        meaningful = value not in (background, divider_color)
+        meaningful = value != background
         if not meaningful:
             if current is not None:
                 runs.append((length, current))
@@ -104,68 +104,83 @@ def _periodic_project_line(
 def _divider_periodic_variant(
     g: Grid,
     divider: tuple[str, int, int],
-    source_side: int,
 ) -> Grid | None:
     h, w = _shape(g)
     bg = _mode(g)
     kind, idx, divider_color = divider
-    target_side = -source_side
     out = [row[:] for row in g]
     generated_any = False
 
     if kind == "col":
         for r in range(h):
             line = out[r][:]
+            left = sum(line[c] != bg for c in range(idx))
+            right = sum(line[c] != bg for c in range(idx + 1, w))
+            if left == 0 and right == 0:
+                continue
+            source_side = -1 if left >= right else 1
+            target_side = -source_side
             bars = _runs_outward(line, idx, source_side, bg, divider_color)
             if not bars:
-                continue
-            # source side must contain evidence and target side must be mostly empty
-            target_idxs = range(idx + 1, w) if target_side == 1 else range(0, idx)
-            target_non_bg = sum(
-                1 for c in target_idxs if line[c] not in (bg, divider_color)
-            )
-            if target_non_bg > max(1, len(list(target_idxs)) // 5):
                 continue
             out[r] = _periodic_project_line(
                 line, idx, target_side, bars, bg
             )
             generated_any = True
     else:
-        for c in range(w):
-            line = [out[r][c] for r in range(h)]
+        for col in range(w):
+            line = [out[r][col] for r in range(h)]
+            top = sum(line[r] != bg for r in range(idx))
+            bottom = sum(line[r] != bg for r in range(idx + 1, h))
+            if top == 0 and bottom == 0:
+                continue
+            source_side = -1 if top >= bottom else 1
+            target_side = -source_side
             bars = _runs_outward(line, idx, source_side, bg, divider_color)
             if not bars:
                 continue
-            target_idxs = range(idx + 1, h) if target_side == 1 else range(0, idx)
-            target_non_bg = sum(
-                1 for r in target_idxs if line[r] not in (bg, divider_color)
+            line = _periodic_project_line(
+                line, idx, target_side, bars, bg
             )
-            if target_non_bg > max(1, len(list(target_idxs)) // 5):
-                continue
-            line = _periodic_project_line(line, idx, target_side, bars, bg)
             for r, value in enumerate(line):
-                out[r][c] = value
+                out[r][col] = value
             generated_any = True
 
     return out if generated_any else None
 
 
+@dataclass(frozen=True)
+class AutoDividerPeriodicRule:
+    rank: int
+
+    @property
+    def name(self) -> str:
+        return f"divider_periodic:auto_rank_{self.rank}"
+
+    def apply(self, g: Grid) -> Grid | None:
+        dividers = _detect_dividers(g)
+        if self.rank >= len(dividers):
+            return None
+        return _divider_periodic_variant(g, dividers[self.rank])
+
+
 def divider_periodic_rules(task: dict) -> list[ProjectionRule]:
-    """Infer divider orientation/side from demonstrations by exact execution fit."""
+    """
+    Infer the divider by structural rank, not fixed color or coordinate.
+    This allows divider color/position to vary across examples.
+    """
     if not task["train"]:
         return []
-    first = task["train"][0]["input"]
+    max_dividers = max(
+        (len(_detect_dividers(pair["input"])) for pair in task["train"]),
+        default=0,
+    )
     candidates: list[ProjectionRule] = []
-    for divider in _detect_dividers(first):
-        for source_side in (-1, 1):
-            name = f"divider_periodic:{divider[0]}:{divider[1]}:src{source_side}"
-            rule = ProjectionRule(
-                name,
-                lambda g, divider=divider, source_side=source_side:
-                    _divider_periodic_variant(g, divider, source_side),
-            )
-            if _fits(rule, task["train"]):
-                candidates.append(rule)
+    for rank in range(max_dividers):
+        auto = AutoDividerPeriodicRule(rank)
+        rule = ProjectionRule(auto.name, auto.apply)
+        if _fits(rule, task["train"]):
+            candidates.append(rule)
     return candidates
 
 
@@ -243,13 +258,30 @@ def _trim_background(block: Grid, background: int) -> Grid | None:
     ]
 
 
+def _infer_symbol_background(blocks: list[Grid]) -> int | None:
+    if not blocks:
+        return None
+    common = set(v for row in blocks[0] for v in row)
+    for block in blocks[1:]:
+        common &= {v for row in block for v in row}
+    if not common:
+        return None
+    counts = Counter(
+        v
+        for block in blocks
+        for row in block
+        for v in row
+        if v in common
+    )
+    return counts.most_common(1)[0][0] if counts else None
+
+
 def _block_tiling_variant(
     g: Grid,
     axis: str,
     separator_color: int,
     count_divisor: int,
 ) -> Grid | None:
-    bg = _mode(g)
     blocks = _split_by_separator(g, axis, separator_color)
     if len(blocks) != 4:
         return None
@@ -260,6 +292,9 @@ def _block_tiling_variant(
         return None
 
     shape_block, counter_block = nonsolid
+    bg = _infer_symbol_background([shape_block, counter_block])
+    if bg is None:
+        return None
     color_a = _solid_color(solid[0])
     color_b = _solid_color(solid[1])
     if color_a is None or color_b is None:
