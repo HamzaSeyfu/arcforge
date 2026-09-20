@@ -12,6 +12,7 @@ on:
       - "src/arcforge/relational.py"
       - "src/arcforge/panels.py"
       - "src/arcforge/objects.py"
+      - "src/arcforge/projection.py"
       - "experiments/qwen_oracle_rows.json"
       - ".github/workflows/symbolic-benchmark.yml"
   workflow_dispatch:
