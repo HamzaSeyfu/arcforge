@@ -3,6 +3,8 @@ name: symbolic-benchmark
 on:
   push:
     branches: ["research/40pct-candidate-expansion"]
+  pull_request:
+    branches: ["main"]
     paths:
       - "src/arcforge/symbolic.py"
       - "scripts/benchmark_symbolic.py"
