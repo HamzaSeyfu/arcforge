@@ -20,9 +20,12 @@ Build a modular system that can:
 ## Current milestones
 
 - **v0**: Kaggle submission pipeline validated.
-- **v1**: reproduce a strong public Qwen/NVARC-style baseline.
-- **v2**: add complementary solver families and selection logic.
+- **v1**: Qwen/NVARC-style baseline reproduced and iterated; ARCForge v7.1.1 reached **28.47** on the Kaggle public leaderboard.
+- **v2**: symbolic and exact program-synthesis branches explored with strict train verification.
+- **v3 / current**: local Qwen3-Coder program synthesis and training-only retrieval experiments; no score improvement validated yet.
 - **Long-term research direction**: investigate high-coverage portfolio reasoning.
+
+Recent experiment history is documented in [docs/RECENT_WORK.md](docs/RECENT_WORK.md).
 
 Public evaluation results and hidden-set claims are kept strictly separate.
 
