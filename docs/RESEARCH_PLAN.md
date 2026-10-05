@@ -1,106 +1,50 @@
 # ARCForge research plan
 
-## Current position — 2026-10-05
+## Phase 1 — Anchor
 
-ARCForge has a working evaluation/validation core and a verified historical public Kaggle result of **28.47** from a Qwen/NVARC-derived branch.
+Reproduce a strong, current, public ARC-AGI-2 baseline under Kaggle's submission
+constraints. Target band: ~30–34% public score.
 
-Recent local program-synthesis experiments with Qwen3-Coder were stopped after an exact-solve gate produced no exact programs on the first two tasks. That branch is documented as a negative result instead of being presented as progress.
+Do not modify the baseline until public-evaluation scoring is reproducible,
+candidate artifacts can be inspected, runtime is known, and model/data provenance
+is recorded.
 
-The immediate goal is therefore to strengthen the **portfolio engineering layer** while solver research continues.
+## Phase 2 — Measure the actual bottleneck
 
-## Phase 1 — Reproducible anchors
+For each labeled public-evaluation output collect candidate pool size, whether the
+ground truth exists anywhere in the pool, rank under each selector, selector
+agreement, shape/color statistics, augmentation support, and model/verifier scores.
 
-Maintain at least one trusted, reproducible neural anchor.
-
-For every anchor record:
-
-- model/checkpoint provenance;
-- Kaggle inputs;
-- exact public-evaluation score;
-- runtime;
-- accelerator;
-- notebook/code version.
-
-A historical leaderboard score and a locally reproducible result must be labeled separately.
-
-## Phase 2 — Portfolio diagnostics
-
-Status: **implemented in the repository.**
-
-Measure:
-
-- exact `pass@2` per solver;
-- shared vs unique solves;
-- pairwise oracle union;
-- full n-way oracle union;
-- greedy marginal solver coverage.
-
-Primary question:
+Key measurement:
 
 ```text
-How many new exact rows does this solver add?
+oracle candidate coverage - selected pass@2
 ```
 
-If the answer is zero, the branch does not earn promotion merely because its internal confidence or cell-level fitness improved.
+A large gap means selection/routing is worth attacking. A small gap means candidate
+generation needs improvement first.
 
-## Phase 3 — Solver adapters
+## Phase 3 — Parallel expert branches
 
-Add thin adapters that normalize outputs from experimental solver families into the same submission schema.
+### A. Portfolio selection
+Optimize the *pair* of attempts, not two independent top-1 scores.
 
-Target families:
-
-### A. Neural ARC anchor
-Strong specialized model used as the portfolio base.
-
-### B. Symbolic / object-centric solver
-Only execution-verified candidates that fit every training pair.
+### B. Symbolic / object-centric expert
+Only promote execution-verified candidates that fit every training pair.
 
 ### C. Program synthesis
-Generate executable transforms, verify exact fit on all train examples, then predict test.
+Search a compact DSL derived from recurring solution primitives.
 
-### D. Test-time adaptation
-Evaluate only when it adds exact solves that justify its cost.
+### D. Candidate refinement
+Repair near-miss neural candidates using demonstration failures.
 
-## Phase 4 — Selection
+## Phase 4 — Cost-aware routing
 
-Once oracle union materially exceeds the best individual solver, work on a label-free selector.
-
-Useful signals may include:
-
-- agreement between augmentations;
-- candidate frequency;
-- exact train-fit evidence;
-- solver confidence;
-- structural task descriptors;
-- solver-specific historical reliability.
-
-Selection work is justified only when measurable oracle headroom exists.
-
-## Phase 5 — Compute-aware routing
-
-Run expensive experts only when expected marginal coverage justifies them.
-
-Record:
-
-- wall time;
-- GPU type/count;
-- model load time;
-- per-task timeout;
-- OOM / crash rate;
-- exact gain per compute unit.
+Run expensive experts only on tasks whose descriptors / uncertainty justify the
+compute.
 
 ## Kill gates
 
-Pause or reject a branch when:
-
-- it adds no unique exact solves;
-- its oracle union headroom is negligible;
-- repeated repair loops do not converge to exact train fit;
-- runtime cost is disproportionate;
-- results depend on harness artifacts or invalid evaluation leakage.
-
-## Score target
-
-The project may research paths toward **51%+**, but this number is a target, not a README claim.
-
-A target is promoted to a result only after exact evaluation evidence exists.
+Pause a branch if it adds no unique exact solves, its oracle union headroom is
+negligible, a label-free selector cannot recover the gain, or runtime cost is
+disproportionate.
